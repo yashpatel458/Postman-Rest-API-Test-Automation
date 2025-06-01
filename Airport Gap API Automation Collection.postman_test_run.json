@@ -1,0 +1,661 @@
+{
+	"id": "f643cde0-ae5b-42ba-9dcb-edd9307aef05",
+	"name": "Airport Gap API Automation Collection",
+	"timestamp": "2025-06-01T17:18:40.311Z",
+	"collection_id": "16192663-4098d5b9-807a-4bc5-9ccf-857bce324eaf",
+	"folder_id": 0,
+	"environment_id": "16192663-26ee2b29-9b24-4286-a370-ef01d50244f5",
+	"totalPass": 31,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-06-01T17:18:38.920Z",
+	"totalFail": 2,
+	"results": [
+		{
+			"id": "c19d7a7a-7142-4d50-bb93-2325f0fc9d55",
+			"name": "Request: POST /tokens",
+			"url": "https://airportgap.com/api/tokens",
+			"time": 278,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response status code is 200": true,
+				"Response time is within an acceptable range": true,
+				"Response has the required fields": true,
+				"Token is a non-empty string": true,
+				"Content-Type header is application/json": true
+			},
+			"testPassFailCounts": {
+				"Response status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is within an acceptable range": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has the required fields": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Token is a non-empty string": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content-Type header is application/json": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				278
+			],
+			"allTests": [
+				{
+					"Response status code is 200": true,
+					"Response time is within an acceptable range": true,
+					"Response has the required fields": true,
+					"Token is a non-empty string": true,
+					"Content-Type header is application/json": true
+				}
+			]
+		},
+		{
+			"id": "e0840f52-8f52-4e19-a56d-189ba1bfde85",
+			"name": "GET /airports",
+			"url": "https://airportgap.com/api/airports",
+			"time": 47,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status is 200": true,
+				"Airport list is returned": true
+			},
+			"testPassFailCounts": {
+				"Status is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Airport list is returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				47
+			],
+			"allTests": [
+				{
+					"Status is 200": true,
+					"Airport list is returned": true
+				}
+			]
+		},
+		{
+			"id": "5c9cf2b1-6b22-43b5-8feb-aa7464444aff",
+			"name": "GET /airports/:id",
+			"url": "https://airportgap.com/api/airports/JFK",
+			"time": 38,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 100ms": true,
+				"Content type is application/json": true,
+				"Airport name is not 'Kansai International Airport'": true,
+				"Timezone is not 'Asia/Tokyo'": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 100ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content type is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Airport name is not 'Kansai International Airport'": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Timezone is not 'Asia/Tokyo'": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				38
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 100ms": true,
+					"Content type is application/json": true,
+					"Airport name is not 'Kansai International Airport'": true,
+					"Timezone is not 'Asia/Tokyo'": true
+				}
+			]
+		},
+		{
+			"id": "60192148-cb80-437c-8cd2-a2e04ab2b7fc",
+			"name": "POST /airports/distance - from: GKA, to: MAG",
+			"url": "https://airportgap.com/api/airports/distance",
+			"time": 45,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is one of 200, 401, 422": true
+			},
+			"testPassFailCounts": {
+				"Status code is one of 200, 401, 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				45
+			],
+			"allTests": [
+				{
+					"Status code is one of 200, 401, 422": true
+				}
+			]
+		},
+		{
+			"id": "b9a710ce-46f5-4e98-ab74-cb4b796bd5b2",
+			"name": "POST /airports/distance - from: MAG, to: GKA",
+			"url": "https://airportgap.com/api/airports/distance",
+			"time": 38,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is one of 200, 401, 422": true
+			},
+			"testPassFailCounts": {
+				"Status code is one of 200, 401, 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				38
+			],
+			"allTests": [
+				{
+					"Status code is one of 200, 401, 422": true
+				}
+			]
+		},
+		{
+			"id": "1bbb2733-ccc0-4543-836c-bb21f43cd61d",
+			"name": "POST /airports/distance - from: HGU, to: LAE",
+			"url": "https://airportgap.com/api/airports/distance",
+			"time": 36,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is one of 200, 401, 422": true
+			},
+			"testPassFailCounts": {
+				"Status code is one of 200, 401, 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				36
+			],
+			"allTests": [
+				{
+					"Status code is one of 200, 401, 422": true
+				}
+			]
+		},
+		{
+			"id": "1136e2e6-9b67-4cec-973d-bdfc3bdc689e",
+			"name": "POST /airports/distance - from: UAK, to: YCB",
+			"url": "https://airportgap.com/api/airports/distance",
+			"time": 37,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is one of 200, 401, 422": true
+			},
+			"testPassFailCounts": {
+				"Status code is one of 200, 401, 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				37
+			],
+			"allTests": [
+				{
+					"Status code is one of 200, 401, 422": true
+				}
+			]
+		},
+		{
+			"id": "e17e3fc0-6ae5-4d41-ac86-f0589a4085f0",
+			"name": "POST /airports/distance - from: GKA, to: GKA",
+			"url": "https://airportgap.com/api/airports/distance",
+			"time": 40,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is one of 200, 401, 422": true,
+				"Distance should be 0": true
+			},
+			"testPassFailCounts": {
+				"Status code is one of 200, 401, 422": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Distance should be 0": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				40
+			],
+			"allTests": [
+				{
+					"Status code is one of 200, 401, 422": true,
+					"Distance should be 0": true
+				}
+			]
+		},
+		{
+			"id": "9ef336e5-f820-43a6-83ff-6375c924d2af",
+			"name": "POST /airports/distance - from: GKA, to: XXX",
+			"url": "https://airportgap.com/api/airports/distance",
+			"time": 37,
+			"responseCode": {
+				"code": 422,
+				"name": "Unprocessable Entity"
+			},
+			"tests": {
+				"Status code is one of 200, 401, 422": true
+			},
+			"testPassFailCounts": {
+				"Status code is one of 200, 401, 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				37
+			],
+			"allTests": [
+				{
+					"Status code is one of 200, 401, 422": true
+				}
+			]
+		},
+		{
+			"id": "eb31ee3a-34e6-4e69-a23c-8e2ad71c8b21",
+			"name": "POST /airports/distance - from: EMPTY, to: MAG",
+			"url": "https://airportgap.com/api/airports/distance",
+			"time": 37,
+			"responseCode": {
+				"code": 422,
+				"name": "Unprocessable Entity"
+			},
+			"tests": {
+				"Status code is one of 200, 401, 422": true
+			},
+			"testPassFailCounts": {
+				"Status code is one of 200, 401, 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				37
+			],
+			"allTests": [
+				{
+					"Status code is one of 200, 401, 422": true
+				}
+			]
+		},
+		{
+			"id": "314733a9-e075-4c94-b86f-34dff89b727c",
+			"name": "POST /airports/distance - from: gka, to: mag",
+			"url": "https://airportgap.com/api/airports/distance",
+			"time": 36,
+			"responseCode": {
+				"code": 422,
+				"name": "Unprocessable Entity"
+			},
+			"tests": {
+				"Status code is one of 200, 401, 422": true
+			},
+			"testPassFailCounts": {
+				"Status code is one of 200, 401, 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				36
+			],
+			"allTests": [
+				{
+					"Status code is one of 200, 401, 422": true
+				}
+			]
+		},
+		{
+			"id": "6df04f2e-0135-4bd7-8bad-ec42860c9c8b",
+			"name": "POST /airports/distance - from: $$$, to: 123!",
+			"url": "https://airportgap.com/api/airports/distance",
+			"time": 35,
+			"responseCode": {
+				"code": 422,
+				"name": "Unprocessable Entity"
+			},
+			"tests": {
+				"Status code is one of 200, 401, 422": true
+			},
+			"testPassFailCounts": {
+				"Status code is one of 200, 401, 422": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				35
+			],
+			"allTests": [
+				{
+					"Status code is one of 200, 401, 422": true
+				}
+			]
+		},
+		{
+			"id": "3907d677-1ae6-48f5-97c1-d7a2e119fdbf",
+			"name": "GET /favorites All",
+			"url": "https://airportgap.com/api/favorites",
+			"time": 37,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 200ms": true,
+				"Content type is application/json": true,
+				"Data array exists": true,
+				"Attributes exist within data": false,
+				"Airport name exists within attributes": false
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Content type is application/json": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Data array exists": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Attributes exist within data": {
+					"pass": 0,
+					"fail": 1
+				},
+				"Airport name exists within attributes": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				37
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 200ms": true,
+					"Content type is application/json": true,
+					"Data array exists": true,
+					"Attributes exist within data": false,
+					"Airport name exists within attributes": false
+				}
+			]
+		},
+		{
+			"id": "d7836327-bc6e-4874-b08b-a401bd818694",
+			"name": "POST /favorites",
+			"url": "https://airportgap.com/api/favorites",
+			"time": 40,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				40
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d36afe08-a5ad-4d95-ab69-f87570204b09",
+			"name": "GET /favorites",
+			"url": "https://airportgap.com/api/favorites/31462}\n",
+			"time": 36,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 200ms": true,
+				"Response body has data, id, type, attributes": true,
+				"Response has content type header": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response body has data, id, type, attributes": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response has content type header": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				36
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 200ms": true,
+					"Response body has data, id, type, attributes": true,
+					"Response has content type header": true
+				}
+			]
+		},
+		{
+			"id": "8faf454c-d52e-4503-8b69-bde435c5ee1a",
+			"name": "PATCH /favorites/:id",
+			"url": "https://airportgap.com/api/favorites/31462\n",
+			"time": 40,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Note updated": true
+			},
+			"testPassFailCounts": {
+				"Note updated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				40
+			],
+			"allTests": [
+				{
+					"Note updated": true
+				}
+			]
+		},
+		{
+			"id": "1f20b7a5-98a3-452a-9e54-28da00c0847b",
+			"name": "DELETE /favorites/:id",
+			"url": "https://airportgap.com/api/favorites/31462",
+			"time": 38,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				38
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "1fc786d6-b8a8-4c0e-b518-ac8c863957a0",
+			"name": "DELETE /favorites/clear_all",
+			"url": "https://airportgap.com/api/favorites/clear_all",
+			"time": 35,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				35
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 930,
+	"collection": {
+		"requests": [
+			{
+				"id": "c19d7a7a-7142-4d50-bb93-2325f0fc9d55",
+				"method": "POST"
+			},
+			{
+				"id": "e0840f52-8f52-4e19-a56d-189ba1bfde85",
+				"method": "GET"
+			},
+			{
+				"id": "5c9cf2b1-6b22-43b5-8feb-aa7464444aff",
+				"method": "GET"
+			},
+			{
+				"id": "60192148-cb80-437c-8cd2-a2e04ab2b7fc",
+				"method": "POST"
+			},
+			{
+				"id": "b9a710ce-46f5-4e98-ab74-cb4b796bd5b2",
+				"method": "POST"
+			},
+			{
+				"id": "1bbb2733-ccc0-4543-836c-bb21f43cd61d",
+				"method": "POST"
+			},
+			{
+				"id": "1136e2e6-9b67-4cec-973d-bdfc3bdc689e",
+				"method": "POST"
+			},
+			{
+				"id": "e17e3fc0-6ae5-4d41-ac86-f0589a4085f0",
+				"method": "POST"
+			},
+			{
+				"id": "9ef336e5-f820-43a6-83ff-6375c924d2af",
+				"method": "POST"
+			},
+			{
+				"id": "eb31ee3a-34e6-4e69-a23c-8e2ad71c8b21",
+				"method": "POST"
+			},
+			{
+				"id": "314733a9-e075-4c94-b86f-34dff89b727c",
+				"method": "POST"
+			},
+			{
+				"id": "6df04f2e-0135-4bd7-8bad-ec42860c9c8b",
+				"method": "POST"
+			},
+			{
+				"id": "3907d677-1ae6-48f5-97c1-d7a2e119fdbf",
+				"method": "GET"
+			},
+			{
+				"id": "d7836327-bc6e-4874-b08b-a401bd818694",
+				"method": "POST"
+			},
+			{
+				"id": "d36afe08-a5ad-4d95-ab69-f87570204b09",
+				"method": "GET"
+			},
+			{
+				"id": "8faf454c-d52e-4503-8b69-bde435c5ee1a",
+				"method": "PATCH"
+			},
+			{
+				"id": "1f20b7a5-98a3-452a-9e54-28da00c0847b",
+				"method": "DELETE"
+			},
+			{
+				"id": "1fc786d6-b8a8-4c0e-b518-ac8c863957a0",
+				"method": "DELETE"
+			}
+		]
+	}
+}

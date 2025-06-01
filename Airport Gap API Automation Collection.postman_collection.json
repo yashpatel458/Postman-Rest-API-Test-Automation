@@ -1,0 +1,1038 @@
+{
+	"info": {
+		"_postman_id": "4098d5b9-807a-4bc5-9ccf-857bce324eaf",
+		"name": "Airport Gap API Automation Collection",
+		"description": "https://airportgap.com/api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16192663"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Request: POST /tokens",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response time is within an acceptable range\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.token).to.exist;",
+									"});",
+									"",
+									"",
+									"pm.test(\"Token is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Token should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "test@airportgap.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "airportgappassword",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/tokens",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tokens"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Airports",
+			"item": [
+				{
+					"name": "GET /airports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+									"pm.test(\"Airport list is returned\", () => {",
+									"  let json = pm.response.json();",
+									"  pm.expect(json.data.length).to.be.above(0);",
+									"});",
+									"",
+									"var template = `",
+									"<style type=\"text/css\">",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}",
+									"    .tftable tr {background-color:#ffffff;}",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}",
+									"    .tftable tr:hover {background-color:#e0ffff;}",
+									"</style>",
+									"",
+									"<table class=\"tftable\" border=\"1\">",
+									"    <tr>",
+									"        <th>Name</th>",
+									"        <th>City</th>",
+									"        <th>Country</th>",
+									"        <th>IATA</th>",
+									"        <th>ICAO</th>",
+									"        <th>Latitude</th>",
+									"        <th>Longitude</th>",
+									"        <th>Altitude</th>",
+									"        <th>Timezone</th>",
+									"    </tr>",
+									"    ",
+									"    {{#each response.data}}",
+									"        <tr>",
+									"            <td>{{attributes.name}}</td>",
+									"            <td>{{attributes.city}}</td>",
+									"            <td>{{attributes.country}}</td>",
+									"            <td>{{attributes.iata}}</td>",
+									"            <td>{{attributes.icao}}</td>",
+									"            <td>{{attributes.latitude}}</td>",
+									"            <td>{{attributes.longitude}}</td>",
+									"            <td>{{attributes.altitude}}</td>",
+									"            <td>{{attributes.timezone}}</td>",
+									"        </tr>",
+									"    {{/each}}",
+									"</table>",
+									"`;",
+									"",
+									"function constructVisualizerPayload() {",
+									"    return {response: pm.response.json()}",
+									"}",
+									"",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/airports",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"airports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /airports/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Updated response time test to 100ms",
+									"pm.test(\"Response time is less than 100ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(100);",
+									"});",
+									"",
+									"pm.test(\"Content type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"// Updated negative test for airport name to \"Kansai International Airport\"",
+									"pm.test(\"Airport name is not 'Kansai International Airport'\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.attributes.name).to.not.equal(\"Kansai International Airport\");",
+									"});",
+									"",
+									"// Updated negative test for timezone to \"Asia/Tokyo\"",
+									"pm.test(\"Timezone is not 'Asia/Tokyo'\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.attributes.timezone).to.not.equal(\"Asia/Tokyo\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/airports/JFK",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"airports",
+								"JFK"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Distance",
+			"item": [
+				{
+					"name": "POST /airports/distance - from: GKA, to: MAG",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is one of 200, 401, 422', () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([200, 401, 422]);",
+									"});",
+									"console.log('Response:', pm.response.json());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "GKA"
+								},
+								{
+									"key": "to",
+									"value": "MAG"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://airportgap.com/api/airports/distance",
+							"protocol": "https",
+							"host": [
+								"airportgap",
+								"com"
+							],
+							"path": [
+								"api",
+								"airports",
+								"distance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /airports/distance - from: MAG, to: GKA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is one of 200, 401, 422', () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([200, 401, 422]);",
+									"});",
+									"console.log('Response:', pm.response.json());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "MAG"
+								},
+								{
+									"key": "to",
+									"value": "GKA"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://airportgap.com/api/airports/distance",
+							"protocol": "https",
+							"host": [
+								"airportgap",
+								"com"
+							],
+							"path": [
+								"api",
+								"airports",
+								"distance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /airports/distance - from: HGU, to: LAE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is one of 200, 401, 422', () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([200, 401, 422]);",
+									"});",
+									"console.log('Response:', pm.response.json());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "HGU"
+								},
+								{
+									"key": "to",
+									"value": "LAE"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://airportgap.com/api/airports/distance",
+							"protocol": "https",
+							"host": [
+								"airportgap",
+								"com"
+							],
+							"path": [
+								"api",
+								"airports",
+								"distance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /airports/distance - from: UAK, to: YCB",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is one of 200, 401, 422', () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([200, 401, 422]);",
+									"});",
+									"console.log('Response:', pm.response.json());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "UAK"
+								},
+								{
+									"key": "to",
+									"value": "YCB"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://airportgap.com/api/airports/distance",
+							"protocol": "https",
+							"host": [
+								"airportgap",
+								"com"
+							],
+							"path": [
+								"api",
+								"airports",
+								"distance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /airports/distance - from: GKA, to: GKA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is one of 200, 401, 422', () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([200, 401, 422]);",
+									"});",
+									"",
+									"pm.test(\"Distance should be 0\", () => {",
+									"  const dist = pm.response.json().data.attributes.kilometers;",
+									"  pm.expect(dist).to.eql(0);",
+									"});",
+									"",
+									"console.log('Response:', pm.response.json());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "GKA"
+								},
+								{
+									"key": "to",
+									"value": "GKA"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://airportgap.com/api/airports/distance",
+							"protocol": "https",
+							"host": [
+								"airportgap",
+								"com"
+							],
+							"path": [
+								"api",
+								"airports",
+								"distance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /airports/distance - from: GKA, to: XXX",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is one of 200, 401, 422', () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([200, 401, 422]);",
+									"});",
+									"console.log('Response:', pm.response.json());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "GKA"
+								},
+								{
+									"key": "to",
+									"value": "XXX"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://airportgap.com/api/airports/distance",
+							"protocol": "https",
+							"host": [
+								"airportgap",
+								"com"
+							],
+							"path": [
+								"api",
+								"airports",
+								"distance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /airports/distance - from: EMPTY, to: MAG",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is one of 200, 401, 422', () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([200, 401, 422]);",
+									"});",
+									"console.log('Response:', pm.response.json());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "to",
+									"value": "MAG"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://airportgap.com/api/airports/distance",
+							"protocol": "https",
+							"host": [
+								"airportgap",
+								"com"
+							],
+							"path": [
+								"api",
+								"airports",
+								"distance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /airports/distance - from: gka, to: mag",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is one of 200, 401, 422', () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([200, 401, 422]);",
+									"});",
+									"console.log('Response:', pm.response.json());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "gka"
+								},
+								{
+									"key": "to",
+									"value": "mag"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://airportgap.com/api/airports/distance",
+							"protocol": "https",
+							"host": [
+								"airportgap",
+								"com"
+							],
+							"path": [
+								"api",
+								"airports",
+								"distance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /airports/distance - from: $$$, to: 123!",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is one of 200, 401, 422', () => {",
+									"   pm.expect(pm.response.code).to.be.oneOf([200, 401, 422]);",
+									"});",
+									"console.log('Response:', pm.response.json());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "$$$"
+								},
+								{
+									"key": "to",
+									"value": "123!"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://airportgap.com/api/airports/distance",
+							"protocol": "https",
+							"host": [
+								"airportgap",
+								"com"
+							],
+							"path": [
+								"api",
+								"airports",
+								"distance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "GET /favorites All",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test for response time",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"// Test for content type",
+									"pm.test(\"Content type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"// Test for existence of data array",
+									"pm.test(\"Data array exists\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.be.an('array');",
+									"});",
+									"",
+									"// Test for existence of attributes within data",
+									"pm.test(\"Attributes exist within data\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].attributes).to.exist;",
+									"});",
+									"",
+									"// Test for existence of airport name within attributes",
+									"pm.test(\"Airport name exists within attributes\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data[0].attributes.airport.name).to.equal(\"Sault Ste Marie Airport\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/favorites",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /favorites",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let id = pm.response.json().data.id;",
+									"pm.environment.set(\"favorite_id\", id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "airport_id",
+									"value": "YAM",
+									"type": "text"
+								},
+								{
+									"key": "note",
+									"value": "My usual layover when visiting family",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/favorites",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /favorites",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test for response time",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"// Test for response body schema/properties",
+									"pm.test(\"Response body has data, id, type, attributes\", function () {",
+									"    const responseBody = pm.response.json();",
+									"    pm.expect(responseBody).to.have.property('data');",
+									"    pm.expect(responseBody.data).to.have.property('id');",
+									"    pm.expect(responseBody.data).to.have.property('type');",
+									"    pm.expect(responseBody.data).to.have.property('attributes');",
+									"});",
+									"",
+									"// Test for response headers (content-type)",
+									"pm.test(\"Response has content type header\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/favorites/{{favorite_id}}}\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"favorites",
+								"{{favorite_id}}}\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /favorites/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Note updated\", () => {",
+									"  let note = pm.response.json().data.attributes.note;",
+									"  pm.expect(note).to.include(\"Updated\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "note",
+									"value": "Updated my favorite layover note\n",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/favorites/{{favorite_id}}\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"favorites",
+								"{{favorite_id}}\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /favorites/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code",
+									"pm.response.to.have.status(204);",
+									"",
+									"// Test for response time",
+									"pm.expect(pm.response.responseTime).to.be.below(200);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/favorites/{{favorite_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"favorites",
+								"{{favorite_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /favorites/clear_all",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/favorites/clear_all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"favorites",
+								"clear_all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "mwjDJpaKZg5xyx5rWHNaP2XF",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
