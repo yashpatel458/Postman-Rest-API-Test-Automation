@@ -126,7 +126,7 @@ The entire suite was run using Postman Collection Runner:
 | File Name                                      | Purpose                          |
 |------------------------------------------------|----------------------------------|
 | `Airport Gap API Automation Collection.json`   | Full Postman Collection          |
-| `Airport Gap API Automation.postman_test_run.json` | Test Runner Output               |
+| `Test Results - Airport Gap API Automation.postman_test_run.json` | Test Runner Output               |
 
 ---
 
